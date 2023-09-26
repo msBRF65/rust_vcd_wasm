@@ -39,12 +39,10 @@ pub struct VcdData {
 }
 
 #[wasm_bindgen]
-pub fn parse(vcd_path: &str) -> VcdData {
-    let file = File::open("/home/members/saito/elastic_cgra_mapper/output/cgra.vcd");
-    let file = match file {
-        Ok(file) => file,
-        Err(error) => panic!("error !"),
-    };
+extern "C" {
+    #[wasm_bindgen(js_namespace = console)]
+    fn log(s: &str);
+}
 
     let mut reader = Parser::new(BufReader::new(file));
     let header = reader.parse_header();
