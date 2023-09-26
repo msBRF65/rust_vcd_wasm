@@ -44,7 +44,10 @@ extern "C" {
     fn log(s: &str);
 }
 
-    let mut reader = Parser::new(BufReader::new(file));
+#[wasm_bindgen]
+pub fn parse(vcd_text: &str) -> VcdData {
+
+    let mut reader = Parser::new(vcd_text.as_bytes());
     let header = reader.parse_header();
     let header = match header {
         Ok(header) => header,
