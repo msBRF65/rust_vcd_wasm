@@ -68,52 +68,57 @@ pub fn parse(vcd_text: &str) -> VcdData {
     let mut signal: Vec<SignalDataAndTime> = Vec::new();
     let mut tmp_signal_data_and_time = INIT_SIGNAL_DATA_AND_TIME;
     while let Some(command) = reader.next().transpose().ok() {
-        match command.unwrap() {
-            Command::Timestamp(t) => {
-                if (tmp_signal_data_and_time.data_array_scalar.len()
-                    + tmp_signal_data_and_time.data_array_vector.len()
-                    + tmp_signal_data_and_time.data_array_real.len()
-                    + tmp_signal_data_and_time.data_array_string.len()
-                    > 0)
-                {
-                    signal.push(tmp_signal_data_and_time);
-                }
+        match command {
+            None => {
+                break;
+            }
+            Some(command) => match command {
+                Command::Timestamp(t) => {
+                    if (tmp_signal_data_and_time.data_array_scalar.len()
+                        + tmp_signal_data_and_time.data_array_vector.len()
+                        + tmp_signal_data_and_time.data_array_real.len()
+                        + tmp_signal_data_and_time.data_array_string.len()
+                        > 0)
+                    {
+                        signal.push(tmp_signal_data_and_time);
+                    }
 
-                tmp_signal_data_and_time = INIT_SIGNAL_DATA_AND_TIME;
-                tmp_signal_data_and_time.time = t;
-            }
-            Command::ChangeScalar(i, v) => {
-                let data = SignalDataScalar {
-                    id_code: i.to_string(),
-                    value: v,
-                };
-                tmp_signal_data_and_time.data_array_scalar.push(data);
-            }
-            Command::ChangeVector(i, v) => {
-                let data = SignalDataVector {
-                    id_code: i.to_string(),
-                    value: v,
-                };
-                tmp_signal_data_and_time.data_array_vector.push(data);
-            }
-            Command::ChangeReal(i, v) => {
-                let data = SignalDataReal {
-                    id_code: i.to_string(),
-                    value: v,
-                };
-                tmp_signal_data_and_time.data_array_real.push(data);
-            }
-            Command::ChangeString(i, v) => {
-                let data = SignalDataString {
-                    id_code: i.to_string(),
-                    value: v,
-                };
-                tmp_signal_data_and_time.data_array_string.push(data);
-            }
-            command => println!(
-                "Unexpected {command:?} at line {line}",
-                line = reader.line()
-            ),
+                    tmp_signal_data_and_time = INIT_SIGNAL_DATA_AND_TIME;
+                    tmp_signal_data_and_time.time = t;
+                }
+                Command::ChangeScalar(i, v) => {
+                    let data = SignalDataScalar {
+                        id_code: i.to_string(),
+                        value: v,
+                    };
+                    tmp_signal_data_and_time.data_array_scalar.push(data);
+                }
+                Command::ChangeVector(i, v) => {
+                    let data = SignalDataVector {
+                        id_code: i.to_string(),
+                        value: v,
+                    };
+                    tmp_signal_data_and_time.data_array_vector.push(data);
+                }
+                Command::ChangeReal(i, v) => {
+                    let data = SignalDataReal {
+                        id_code: i.to_string(),
+                        value: v,
+                    };
+                    tmp_signal_data_and_time.data_array_real.push(data);
+                }
+                Command::ChangeString(i, v) => {
+                    let data = SignalDataString {
+                        id_code: i.to_string(),
+                        value: v,
+                    };
+                    tmp_signal_data_and_time.data_array_string.push(data);
+                }
+                command => println!(
+                    "Unexpected {command:?} at line {line}",
+                    line = reader.line()
+                ),
+            },
         }
     }
 
