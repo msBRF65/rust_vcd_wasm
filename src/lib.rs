@@ -2,6 +2,8 @@ use std::{fs::File, io::BufReader};
 use vcd::{Command, Parser};
 use wasm_bindgen::prelude::*;
 
+extern crate console_error_panic_hook;
+
 #[wasm_bindgen]
 pub struct SignalDataScalar {
     id_code: String,
@@ -46,6 +48,7 @@ extern "C" {
 
 #[wasm_bindgen]
 pub fn parse(vcd_text: &str) -> VcdData {
+    console_error_panic_hook::set_once();
 
     let mut reader = Parser::new(vcd_text.as_bytes());
     let header = reader.parse_header();
