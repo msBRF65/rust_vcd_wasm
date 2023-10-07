@@ -1,6 +1,6 @@
 [package]
 name = "rust_vcd_wasm"
-version = "0.1.0"
+version = "0.1.6"
 authors = ["msBRF65 <msaito6525@gmail.com>"]
 description = "wasm vcd parser"
 license = "MIT/Apache-2.0"
