@@ -12,3 +12,7 @@ cargo install wasm-pack
 # package to npm
 wasm-pack build --target bundler
 ```
+## How to use
+```bash
+npm install rust-vcd-wasm
+```
