@@ -521,7 +521,7 @@ fn get_vcd_scope_item(input: vcd::ScopeItem) -> VcdScopeItem {
 
 fn get_vcd_scope_items(input: Vec<vcd::ScopeItem>) -> Vec<VcdScopeItem> {
     let mut result: Vec<VcdScopeItem> = Vec::new();
-    input.iter().map(|ele| {
+    input.iter().for_each(|ele| {
         result.push(get_vcd_scope_item(ele.clone()));
     });
 
